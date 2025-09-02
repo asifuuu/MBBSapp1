@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,6 @@ import {
   ScrollView
 } from 'react-native';
 
-import medicinesData from './mbbsdata';
-import otherData from './otherdata';
-
 export default function App() {
   const [activeTab, setActiveTab] = useState('Drugs'); // Tabs: 'Drugs' or 'Other'
   const [search, setSearch] = useState('');
@@ -21,6 +18,28 @@ export default function App() {
   const [showAgeOptions, setShowAgeOptions] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
 
+  // Data states
+  const [medicinesData, setMedicinesData] = useState({});
+  const [otherData, setOtherData] = useState([]);
+
+  // GitHub raw URLs
+  const MEDICINES_URL = 'https://raw.githubusercontent.com/asifuuu/MBBSapp1/main/mbbsdata.json';
+  const OTHER_URL = 'https://raw.githubusercontent.com/asifuuu/MBBSapp1/main/otherdata.json';
+
+
+  // Fetch JSON data from GitHub
+  useEffect(() => {
+    fetch(MEDICINES_URL)
+      .then(res => res.json())
+      .then(json => setMedicinesData(json))
+      .catch(err => console.log('Error fetching medicines:', err));
+
+    fetch(OTHER_URL)
+      .then(res => res.json())
+      .then(json => setOtherData(json))
+      .catch(err => console.log('Error fetching other data:', err));
+  }, []);
+
   // Autocomplete suggestions
   const handleSearch = (text) => {
     setSearch(text);
@@ -28,7 +47,7 @@ export default function App() {
     setResults([]);
     setShowAgeOptions(false);
 
-    if (text.length > 0) {
+    if (text.length > 0 && medicinesData) {
       const filtered = Object.keys(medicinesData).filter(disease =>
         disease.toLowerCase().startsWith(text.toLowerCase())
       );
@@ -55,12 +74,11 @@ export default function App() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: '#000000ff' }} // ensures full screen background
+      style={{ flex: 1, backgroundColor: '#000000ff' }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={50}
     >
       <ScrollView contentContainerStyle={[styles.container, { flexGrow: 1 }]}>
-        
         {/* Tabs */}
         <View style={styles.tabContainer}>
           <TouchableOpacity
@@ -80,7 +98,7 @@ export default function App() {
         {/* Drugs Tab */}
         {activeTab === 'Drugs' && (
           <>
-            <Text style={styles.title}>Go on , Shoot ! </Text>
+            <Text style={styles.title}>Go on, Shoot!</Text>
 
             <View style={{ width: '90%' }}>
               <TextInput
@@ -121,7 +139,7 @@ export default function App() {
             )}
 
             <View style={{ alignItems: 'center', paddingBottom: 20 }}>
-              {results.map((item, index) => (
+              {results && results.map((item, index) => (
                 <View key={index} style={styles.item}>
                   <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{item.name}</Text>
                   {ageGroup && (
@@ -141,17 +159,18 @@ export default function App() {
         {/* Other Tab */}
         {activeTab === 'Other' && (
           <View style={{ marginTop: 30, alignItems: 'center', width: '90%' }}>
-            {otherData.map((item, index) => (
+            {otherData && otherData.length > 0 ? otherData.map((item, index) => (
               <View key={index} style={styles.notesContainer}>
                 <Text style={styles.notesTitle}>{item.title}</Text>
                 {item.notes.map((note, i) => (
                   <Text key={i} style={styles.notesText}>• {note}</Text>
                 ))}
               </View>
-            ))}
+            )) : (
+              <Text style={{ color: 'white', marginTop: 20 }}>Loading notes...</Text>
+            )}
           </View>
         )}
-
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -183,7 +202,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18
-
   },
   title: {
     fontSize: 30,
