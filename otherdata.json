@@ -26,7 +26,15 @@
 	    "is it working",
 	    "YES IT IS "
    ]
-   }
+   },
+{
+  "title": "New Guidelines",
+  "notes": [
+    "Check patient history",
+    "Monitor blood pressure"
+  ]
+}
+
 ]
 
 
