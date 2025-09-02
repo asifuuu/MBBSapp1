@@ -1,0 +1,8 @@
+{
+  "Fever": [
+    { "name": "Paracetamol", "adultDose": "500mg", "pediatricDose": "10mg/kg", "notes": "After food" }
+  ],
+  "Cold": [
+    { "name": "Cetirizine", "adultDose": "10mg", "pediatricDose": "5mg", "notes": "Avoid sedatives" }
+  ]
+}
