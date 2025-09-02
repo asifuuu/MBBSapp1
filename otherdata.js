@@ -7,7 +7,7 @@ const otherData = [
     notes: [
       'X-ray basics',
       'MRI/CT points for common conditions',
-      'you kno how we doit'
+    
     ]
   }
 ];
