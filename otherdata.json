@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Medical Guidelines",
+    "notes": [
+      "Always check allergy history",
+      "Monitor vitals regularly",
+      "Ensure proper hydration"
+    ]
+  },
+  {
+    "title": "Precautions",
+    "notes": [
+      "Avoid contraindicated drugs",
+      "Adjust dose for renal impairment"
+    ]
+  }
+]
