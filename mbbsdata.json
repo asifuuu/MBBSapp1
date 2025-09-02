@@ -6,6 +6,6 @@
     { "name": "Cetirizine", "adultDose": "10mg", "pediatricDose": "5mg", "notes": "Avoid sedatives" }
   ]
   "Malaria" : [
-            { "name":"Artemether", "adultDose": "80mg" , "pediatricDose": "2mg/kg, "notes": "Take after meals"}
+            { "name":"Artemether", "adultDose": "80mg" , "pediatricDose": "2mg/kg, "notes": "Take after meals" }
 	   ]
 }
